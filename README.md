@@ -42,7 +42,7 @@ From the table, we can see a significant variation in model performance across d
 ## 5. Creating a Custom Loss Function
 For the initial experiments, the loss function considered was the sum of loss functions for the regression (MSE) and classification (Cross Entropy Loss) tasks, with the assumption that both losses have to be minimized with equal importance. For this section, I have created a custom trainer module, which takes the weights for the regression and classification loss. So using this module, we can priortize the losses for the regression or classification task as per the requirement to create an optimized model. For example, I have demonstrated this by giving a higher weight for the regression loss, assuming that the requirement was that predicting house prices accurately is more important than predicting the house categories. (refer to the notebook for details on this implementation)
 
-## 6. Using Advanced PyTorch Lightning Features
+## 6. Checkpointing & Early Stopping using PyTorch Lightning
 
 ### 6.1 Checkpointing
 The ModelCheckpoint callback is used to automatically save the top 3 performing models based on the validation loss, which is the criterion for monitoring performance improvements. The models are saved in the specified directory with a filename that includes the epoch number and the validation loss, making it easy to identify and retrieve specific model states. By setting the mode to 'min', the callback focuses on minimizing the validation loss, ensuring that only the best models in terms of lower loss are saved.
@@ -53,7 +53,7 @@ The EarlyStopping callback is configured to monitor the validation loss and will
 ## 7. Hyperparameter Tuning
 The final step in this project is hyperparameter tuning using PyTorch Lightning's integration with Optuna. This step includes all the considerations and features from the previous steps, combined together to find the best performing set of hyperparameters for the model. I am using Optuna to systematically search for the best model configuration. This section outlines how I have integrated Optuna into the training pipeline, experiment with various hyperparameters, and track the improvements in model performance.
 
-### 8. Results and Best Hyperparameters
+## 8. Results and Best Hyperparameters
 After conducting the specified number of trials, Optuna provides a summary of the best performing trial, including the lowest validation loss achieved and the corresponding set of hyperparameters. The best configuration found by Optuna is the following:
 - Learning Rate (lr): 0.0656
 - Optimizer Type: SGD
@@ -74,5 +74,3 @@ The evaluation metrics for the model with the best configuration of hyperparamet
 | Validation F1 Score       | 0.84      |
 
 This systematic approach allows for a comprehensive exploration of the parameter space, which is better than the manual experimentation done earlier, which is also evidenced by the better model performance of the best model configuration found by Optuna.
-
-
